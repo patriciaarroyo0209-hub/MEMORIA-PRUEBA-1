@@ -115,21 +115,16 @@ button:hover {
 
 <script>
 const pairs = [
-    { id: 1, img: "imagenes/estacionamiento_seguro.png" },
-    { id: 1, img: "imagenes/estacionamiento_inseguro.png" },
-
-    { id: 2, img: "imagenes/escalera_seguro.png" },
-    { id: 2, img: "imagenes/escalera_inseguro.png" },
-
-    { id: 3, img: "imagenes/sin_EPP.png" },
-    { id: 3, img: "imagenes/uso_EPP.png" },
-
-    { id: 4, img: "imagenes/ascensor_seguro.png" },
-    { id: 4, img: "imagenes/ascensor_inseguro.png" }
-    
+    { id: 1, img: "estacionamiento_seguro.png" },
+    { id: 1, img: "estacionamiento_inseguro.png" },
+    { id: 2, img: "escalera_seguro.png" },
+    { id: 2, img: "escalera_inseguro.png" },
+    { id: 3, img: "uso_EPP.png" }, 
+    { id: 3, img: "sin_EPP.png" },
+    { id: 4, img: "ascensor_seguro.png" },
+    { id: 4, img: "ascensor_inseguro.png" }, // Aquí faltaba una coma
     { id: 7, img: "caminando_campus_inseguro.png" }, 
-    { id: 7, img: "caminando_campus.png" }
-    
+    { id: 7, img: "caminando_campus.png" }   // Ahora tienes 5 parejas en total
 ];
 
 let attempts = 0;
@@ -215,4 +210,5 @@ createBoard();
 
 </body>
 </html>
+
 
