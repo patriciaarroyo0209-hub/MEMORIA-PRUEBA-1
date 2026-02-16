@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego de Memoria - Seguridad ULima</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+h1 {
+    background-color: black;
+    color: orange;
+    padding: 15px;
+    margin: 0;
+}
+
+p {
+    color: #333;
+    font-weight: bold;
+}
+
+#stats {
+    margin: 10px;
+    font-size: 18px;
+    color: black;
+}
+
+#game {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.card {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.inner-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .inner-card {
+    transform: rotateY(180deg);
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backface-visibility: hidden;
+}
+
+.front {
+    background-color: orange;
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
+.back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+button {
+    background-color: black;
+    color: orange;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+@media (max-width: 600px) {
+    #game {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+</head>
+<body>
+
+<h1>Juego de Seguridad ULima</h1>
+<p>Empareja la condición segura con la insegura</p>
+
+<div id="stats">Intentos: <span id="attempts">0</span></div>
+
+<div id="game"></div>
+
+<button onclick="restartGame()">Reiniciar Juego</button>
+
+<script>
+const pairs = [
+    { id: 1, img: "imagenes/estacionamiento_seguro.png" },
+    { id: 1, img: "imagenes/estacionamiento_inseguro.png" },
+
+    { id: 2, img: "imagenes/escalera_seguro.png" },
+    { id: 2, img: "imagenes/escalera_inseguro.png" },
+
+    { id: 3, img: "imagenes/sin_EPP.png" },
+    { id: 3, img: "imagenes/uso_EPP.png" },
+
+    { id: 4, img: "imagenes/ascensor_seguro.png" },
+    { id: 4, img: "imagenes/ascensor_inseguro.png" }
+];
+
+let attempts = 0;
+let selected = [];
+let matched = 0;
+
+const game = document.getElementById("game");
+const attemptsDisplay = document.getElementById("attempts");
+
+function shuffle(array) {
+    return array.sort(() => 0.5 - Math.random());
+}
+
+function createBoard() {
+    game.innerHTML = "";
+    attempts = 0;
+    matched = 0;
+    selected = [];
+    attemptsDisplay.textContent = attempts;
+
+    const shuffled = shuffle([...pairs]);
+
+    shuffled.forEach(item => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        card.innerHTML = `
+            <div class="inner-card">
+                <div class="front"></div>
+                <div class="back">
+                    <img src="${item.img}">
+                </div>
+            </div>
+        `;
+
+        card.dataset.id = item.id;
+        card.addEventListener("click", () => flipCard(card));
+
+        game.appendChild(card);
+    });
+}
+
+function flipCard(card) {
+    if (selected.length < 2 && !card.classList.contains("flipped")) {
+        card.classList.add("flipped");
+        selected.push(card);
+
+        if (selected.length === 2) {
+            attempts++;
+            attemptsDisplay.textContent = attempts;
+            checkMatch();
+        }
+    }
+}
+
+function checkMatch() {
+    const [card1, card2] = selected;
+
+    if (card1.dataset.id === card2.dataset.id) {
+        matched++;
+        selected = [];
+
+        if (matched === pairs.length / 2) {
+            setTimeout(() => {
+                alert("¡Excelente! Cultura de Seguridad ULima 💪🧡");
+            }, 500);
+        }
+    } else {
+        setTimeout(() => {
+            card1.classList.remove("flipped");
+            card2.classList.remove("flipped");
+            selected = [];
+        }, 1000);
+    }
+}
+
+function restartGame() {
+    createBoard();
+}
+
+createBoard();
+</script>
+
+</body>
+</html>
