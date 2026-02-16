@@ -15,7 +15,7 @@ body {
 
 h1 {
     background-color: black;
-    color: orange;
+    color: white;
     padding: 15px;
     margin: 0;
 }
@@ -82,7 +82,7 @@ p {
 
 button {
     background-color: black;
-    color: orange;
+    color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
@@ -104,7 +104,7 @@ button:hover {
 </head>
 <body>
 
-<h1>Juego de Seguridad ULima</h1>
+<h1>Seguridad ULima</h1>
 <p>Empareja la condición segura con la insegura</p>
 
 <div id="stats">Intentos: <span id="attempts">0</span></div>
@@ -126,6 +126,10 @@ const pairs = [
 
     { id: 4, img: "imagenes/ascensor_seguro.png" },
     { id: 4, img: "imagenes/ascensor_inseguro.png" }
+    
+    { id: 7, img: "caminando_campus_inseguro.png" }, 
+    { id: 7, img: "caminando_campus.png" }
+    
 ];
 
 let attempts = 0;
@@ -190,7 +194,7 @@ function checkMatch() {
 
         if (matched === pairs.length / 2) {
             setTimeout(() => {
-                alert("¡Excelente! Cultura de Seguridad ULima 💪🧡");
+                alert("¡Excelente! Cultura de Seguridad ULima");
             }, 500);
         }
     } else {
@@ -211,3 +215,4 @@ createBoard();
 
 </body>
 </html>
+
